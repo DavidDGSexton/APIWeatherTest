@@ -1,0 +1,33 @@
+﻿@model WeatherAPI.Models.WeatherViewModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+<style>
+    body {
+        background-image: url("https://images.reference.com/reference-production-images/question/aq/1400px-788px/how-clouds-are-formed_c2ab1bca-f8ca-4ef8-a977-d606a4db8989.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+    }
+</style>
+
+
+
+<div class="text-center" style="background-color:rgba(0, 0, 0, 0.6); color:rgba(255, 255, 255, 0.9)">
+    <h1 class="display-3">@Model.city, @Model.country</h1>
+    <p class="display-4">
+        Current Temperature is @Model.temp.ToString() <br>
+        Today's low: @Model.temp_min.ToString() <br>
+        Today's high: @Model.temp_max.ToString() <br>
+        The weather will be @Model.weatherDescription <br>
+    </p>
+
+</div>
+
+<div class="text-center display-5" style="background-color:rgba(0, 0, 0, 0.6); color:rgba(255, 255, 255, 0.9); padding:20px">
+    <form asp-action="Index" asp-controller="Home">
+        <label>Zip Code: </label>
+        <input asp-for="zip" placeholder="Zip Code" />
+        <input type="submit" />
+    </form>
+</div>
