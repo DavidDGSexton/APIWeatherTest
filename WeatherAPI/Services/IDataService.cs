@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace WeatherAPI.Services
 {
-    interface IDataService
+    public interface IDataService
     {
-        Task<WeatherViewModel> GetTemperature(WeatherViewModel locOfWeather);
+        Task<string> GetDataAsString(string url);
     }
 }
