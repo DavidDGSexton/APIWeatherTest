@@ -10,22 +10,19 @@ namespace WeatherAPI.Services
 {
     public class WeatherService : IWeatherService
     {
-        private static HttpClient _httpClient;
+        private IDataService _dataService;
         private string _apiKey = "&APPID=0c549dab70a57c716eefcb677cd93cde";
-        public WeatherService(HttpClient httpClient)
+        public WeatherService(IDataService dataService)
         {
-            _httpClient = httpClient;
-
-            _httpClient.BaseAddress = new Uri("http://api.openweathermap.org/data/2.5/weather");
-            _httpClient.Timeout = new TimeSpan(0, 0, 30);
-
+            _dataService = dataService;
         }
 
         public async Task<WeatherViewModel> GetTemperature(WeatherViewModel locOfWeather)
         {
-            var response = await _httpClient.GetAsync("?zip=" + locOfWeather.zip + _apiKey);
-            response.EnsureSuccessStatusCode();
-            var content = await response.Content.ReadAsStringAsync();
+
+            var content =
+                await _dataService.GetDataAsString("http://api.openweathermap.org/data/2.5/weather?zip=" +
+                                                   locOfWeather.zip + _apiKey);
             var weather = JsonConvert.DeserializeObject<RootWeather>(content);
 
             WeatherViewModel weatherViewModel = new WeatherViewModel()

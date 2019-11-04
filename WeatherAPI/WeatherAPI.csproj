@@ -5,17 +5,19 @@
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="UnitTests\**" />
+    <Content Remove="UnitTests\**" />
+    <EmbeddedResource Remove="UnitTests\**" />
+    <None Remove="UnitTests\**" />
+  </ItemGroup>
+
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
     <PackageReference Include="Moq" Version="4.13.0" />
     <PackageReference Include="MSTest.TestFramework" Version="2.0.0" />
-  </ItemGroup>
-
-
-  <ItemGroup>
-    <Folder Include="UnitTests\" />
   </ItemGroup>
 
 </Project>
