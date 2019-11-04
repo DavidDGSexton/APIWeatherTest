@@ -1,17 +1,18 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
+using WeatherAPI.Models;
 
 namespace WeatherAPI.Services
 {
-    public class DataService
+    public class WeatherService : IWeatherService
     {
-
         private static HttpClient _httpClient;
         private string _apiKey = "&APPID=0c549dab70a57c716eefcb677cd93cde";
-        public WeatherService()
+        public WeatherService(HttpClient httpClient)
         {
             _httpClient = httpClient;
 
@@ -41,6 +42,7 @@ namespace WeatherAPI.Services
             
 
             return weatherViewModel;
-        }  
+        }         
+
     }
 }

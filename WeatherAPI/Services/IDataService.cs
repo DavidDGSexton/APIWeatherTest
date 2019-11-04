@@ -7,5 +7,6 @@ namespace WeatherAPI.Services
 {
     interface IDataService
     {
+        Task<WeatherViewModel> GetTemperature(WeatherViewModel locOfWeather);
     }
 }
