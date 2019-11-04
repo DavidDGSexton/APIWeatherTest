@@ -17,29 +17,47 @@ namespace WeatherAPI.Services
             _dataService = dataService;
         }
 
-        public async Task<WeatherViewModel> GetTemperature(WeatherViewModel locOfWeather)
+        public async Task<WeatherViewModel> GetWeather(WeatherViewModel locOfWeather)
         {
+            WeatherViewModel weatherResult = null;
 
-            var content =
-                await _dataService.GetDataAsString("http://api.openweathermap.org/data/2.5/weather?zip=" +
-                                                   locOfWeather.zip + _apiKey);
-            var weather = JsonConvert.DeserializeObject<RootWeather>(content);
-
-            WeatherViewModel weatherViewModel = new WeatherViewModel()
+            try
             {
-                temp = ((weather.main.temp * 9 / 5) - 459.67).ToString("#") + " °F",
-                temp_max = ((weather.main.temp_max * 9 / 5) - 459.67).ToString("#") + " °F",
-                temp_min = ((weather.main.temp_min * 9 / 5) - 459.67).ToString("#") + " °F",
-                weatherDescription = weather.weather.FirstOrDefault(x => x != null).description,
-                city = weather.name,
-                country = weather.sys.country
-               
-            };
+                var content =
+                await _dataService.GetDataAsString("http://api.openweathermap.org/data/2.5/weather?zip=" +
+                                                           locOfWeather.zip + _apiKey);
+                var weather = JsonConvert.DeserializeObject<RootWeather>(content);
+
+
+                WeatherViewModel weatherViewModel = new WeatherViewModel()
+                {
+                    temp = KelvinToFahrenheit(weather.main.temp),
+                    temp_max = KelvinToFahrenheit(weather.main.temp_max),
+                    temp_min = KelvinToFahrenheit(weather.main.temp_min),
+                    weatherDescription = weather.weather.FirstOrDefault(x => x != null).description,
+                    city = weather.name,
+                    country = weather.sys.country
+
+                };
+
+                weatherResult = weatherViewModel;            
+            }
+
+            catch 
+            {
+
+                throw new Exception("Bad Zipcode");
+            }
 
             
 
-            return weatherViewModel;
-        }         
+            return weatherResult;
+        }
+
+        public string KelvinToFahrenheit(double temp)
+        {
+            return ((temp * 9 / 5) - 459.67).ToString("#") + " °F";
+        }
 
     }
 }

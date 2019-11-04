@@ -30,7 +30,7 @@ namespace WeatherAPI.Controllers
                 country = "KS"
             };
 
-            WeatherViewModel weatherViewModel = await _weatherService.GetTemperature(loc);
+            WeatherViewModel weatherViewModel = await _weatherService.GetWeather(loc);
 
             return View(weatherViewModel);
         }
@@ -38,11 +38,23 @@ namespace WeatherAPI.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(WeatherViewModel weather)
         {
+            if (weather.zip == "")
+            {
+                return Redirect("/Errors");
+            }
 
+            try
+            {
+                WeatherViewModel weatherViewModel = await _weatherService.GetWeather(weather);
+                return View(weatherViewModel);
+            }
 
-            WeatherViewModel weatherViewModel = await _weatherService.GetTemperature(weather);
-
-            return View(weatherViewModel);
+            catch 
+            {
+                return Redirect("/Errors");
+            }
+           
+           
         }
 
         public IActionResult Privacy()

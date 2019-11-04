@@ -9,6 +9,6 @@ namespace WeatherAPI.Services
 {
     public interface IWeatherService
     {
-        Task<WeatherViewModel> GetTemperature(WeatherViewModel locOfWeather);
+        Task<WeatherViewModel> GetWeather(WeatherViewModel locOfWeather);
     }
 }
